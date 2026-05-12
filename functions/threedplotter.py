@@ -1,6 +1,16 @@
 import matplotlib.pyplot as plt
 
 def threedplotter(x_query, y):
+    """
+    3-D scatterplot.
+    
+    Parameters:
+    - x_query: numpy array (n_samples, 2)
+    - y: numpy array (n_samples,)
+    
+    Makes scatterplot of points with coordinates given by x_query and y
+    """
+
     fig = plt.figure(figsize=(10, 7))
     ax = fig.add_subplot(111, projection='3d')
 
