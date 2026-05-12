@@ -2,9 +2,15 @@ import numpy as np
 
 class FitterEnv:
     """Simulates an environment for sampling points from a curve with optional Gaussian noise."""
-    def __init__(self, curve):
+    def __init__(self, curve, k=30):
         self.curve = curve
         self.problem_dim = curve.dim
+
+        # define discretized domain
+        lin = np.linspace(-1, 1, k)
+        grid_coords = np.meshgrid(*(lin for _ in range(self.problem_dim)), indexing='ij')
+        self.x_all = np.stack(grid_coords, axis=-1).reshape(-1, self.problem_dim)
+        self.y_all = self.curve(self.x_all)
 
     def query_points(self, points, noise_sd=0.0):
         if not (points.shape[1] == self.problem_dim):
