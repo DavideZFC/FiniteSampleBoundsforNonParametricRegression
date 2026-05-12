@@ -86,4 +86,16 @@ def sample_from_pi_deterministic(pi, n):
         extra_indices = np.argsort(fractions)[-remainder:]
         counts[extra_indices] += 1
         
-    return counts
+    return counts.astype(int)
+
+def from_counts_to_idxs(vector):
+    ans = np.zeros(np.sum(vector))
+    curr = 0
+    for i,num in enumerate(vector):
+        for j in range(num):
+            ans[curr] = i
+            curr += 1
+    return ans
+
+def get_design_idxs(A,n):
+    return from_counts_to_idxs(sample_from_pi_deterministic(find_optimal_design(A), n)).astype(int)
