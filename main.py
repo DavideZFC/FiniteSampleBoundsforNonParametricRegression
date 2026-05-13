@@ -1,4 +1,3 @@
-import numpy as np
 from classes.curves import Gaussian
 from classes.environment import FitterEnv
 from functions.three_d_plotter import threedplotter
@@ -10,15 +9,28 @@ from classes.experiment import Experiment
 gaussian_curve = Gaussian(d=2)
 env = FitterEnv(gaussian_curve)
 
-n = 1000
-N_grado = 4
+n = 10000
+N_grado = 6
 
-threedplotter(env.x_all, env.y_all)
 
 design = PassiveDesign(fourier_feature_map, N_grado)
 expe = Experiment(design=design, env=env)
-y_pred_all = expe.make_experiment(n)
-threedplotter(env.x_all, y_pred_all)
+y_pred_all = expe.make_experiment(n, noise_sd=0.05)
+threedplotter(env.x_all, y_pred_all-env.y_all)
+
+rmse = np.sqrt(((y_pred_all-env.y_all)**2).sum())
+maxerr = np.max(np.abs(y_pred_all-env.y_all))
+print('Function: L2 error {} Linfty error {}'.format(rmse,maxerr))
+
+
+
+df_dx = env.compute_derivatives(env.y_all)
+df_dx_pred = env.compute_derivatives(y_pred_all)
+threedplotter(env.x_all, df_dx_pred-df_dx)
+
+rmse = np.sqrt(((df_dx_pred-df_dx)**2).sum())
+maxerr = np.max(np.abs(df_dx_pred-df_dx))
+print('Derivative: L2 error {} Linfty error {}'.format(rmse, maxerr))
 
 '''
 design = PassiveDesign(fourier_feature_map, N_grado)

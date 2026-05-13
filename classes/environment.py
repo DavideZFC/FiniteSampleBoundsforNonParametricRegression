@@ -7,6 +7,7 @@ class FitterEnv:
         self.problem_dim = curve.dim
 
         # define discretized domain
+        self.k = k
         lin = np.linspace(-1, 1, k)
         grid_coords = np.meshgrid(*(lin for _ in range(self.problem_dim)), indexing='ij')
         self.x_all = np.stack(grid_coords, axis=-1).reshape(-1, self.problem_dim)
@@ -17,3 +18,9 @@ class FitterEnv:
             raise ValueError('Ambient dimension different than query points')
 
         return self.curve(points) + np.random.normal(0, noise_sd, size=points.shape[0])
+    
+    def compute_derivatives(self, y):
+        df_dx = np.zeros_like(y)
+        df_dx[:-1] = (y[1:] - y[:-1])*self.k/2
+        return df_dx
+
