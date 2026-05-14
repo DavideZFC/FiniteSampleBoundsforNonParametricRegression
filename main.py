@@ -18,7 +18,7 @@ N_grado = 6
 
 design = PassiveDesign(fourier_feature_map, N_grado)
 expe = Experiment(design=design, env=env)
-abs_func, func = dirichlet_func(n_pous=100*N_grado)
+abs_func, func = poussin_func(n_pous=2*N_grado)
 kernel = Kernel(abs_func, func)
 
 
