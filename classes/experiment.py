@@ -21,13 +21,14 @@ class Experiment:
     
 
     def make_experiment_kernel(self, kernel, n, noise_sd=0.0):
+        dim=self.env.problem_dim
         query_idxs = self.design.choose_query_points(self.env.x_all, n)
         points = self.design.x_all[query_idxs]
-        noises, signs = kernel.sample_noise(n, dim=points.shape[1])
+        noises, signs = kernel.sample_noise(n, dim=dim)
         points += noises
         
         y_noisy = self.env.query_points(points, noise_sd)
-        y_noisy *= signs
+        y_noisy *= (kernel.lebeconst)**dim*signs
         X_feat = self.design.features[query_idxs]
 
         model = LinearRegression()

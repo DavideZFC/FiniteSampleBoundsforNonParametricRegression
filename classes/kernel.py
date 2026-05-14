@@ -6,6 +6,7 @@ class Kernel:
         self.x = np.linspace(-1,1,disc)
         self.abs_func = abs_func
         self.func = func
+        self.lebeconst = 2*np.mean(self.abs_func(self.x))
     
     def sample_noise(self, n, dim=2):
         p = self.abs_func(self.x)/self.abs_func(self.x).sum()
