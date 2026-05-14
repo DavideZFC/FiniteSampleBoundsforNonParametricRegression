@@ -18,3 +18,20 @@ class Experiment:
 
         y_pred_all = model.predict(self.design.features)
         return y_pred_all
+    
+
+    def make_experiment_kernel(self, kernel, n, noise_sd=0.0):
+        query_idxs = self.design.choose_query_points(self.env.x_all, n)
+        points = self.design.x_all[query_idxs]
+        noises, signs = kernel.sample_noise(n, dim=points.shape[1])
+        points += noises
+        
+        y_noisy = self.env.query_points(points, noise_sd)
+        y_noisy *= signs
+        X_feat = self.design.features[query_idxs]
+
+        model = LinearRegression()
+        model.fit(X_feat, y_noisy)
+
+        y_pred_all = model.predict(self.design.features)
+        return y_pred_all
