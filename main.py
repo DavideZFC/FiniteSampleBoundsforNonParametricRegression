@@ -18,14 +18,17 @@ N_grado = 6
 
 design = PassiveDesign(fourier_feature_map, N_grado)
 expe = Experiment(design=design, env=env)
-abs_func, func = poussin_func(n_pous=2*N_grado)
-kernel = Kernel(abs_func, func)
+# abs_func, func = poussin_func(n_pous=2*N_grado)
+dir_kernel = Kernel(dirichlet_func, N_grado)
+dvp_kernel = Kernel(poussin_func, 2*N_grado)
 
 
-y_pred_all = expe.make_experiment_kernel(kernel, n, noise_sd=0.05)
-threedplotter(env.x_all, y_pred_all-env.y_all)
+y_pred_all = expe.make_experiment_kernel(dir_kernel, n, noise_sd=0.05)
+threedplotter(env.x_all, y_pred_all, 'figures/dir_app.pdf')
+y_pred_all = expe.make_experiment_kernel(dvp_kernel, n, noise_sd=0.05)
+threedplotter(env.x_all, y_pred_all, 'figures/dvp_app.pdf')
 
-
+'''
 rmse = np.sqrt(((y_pred_all-env.y_all)**2).mean())
 maxerr = np.max(np.abs(y_pred_all-env.y_all))
 print('Function: L2 error {} Linfty error {}'.format(rmse,maxerr))
@@ -40,10 +43,6 @@ rmse = np.sqrt(((df_dx_pred-df_dx)**2).mean())
 maxerr = np.max(np.abs(df_dx_pred-df_dx))
 print('Derivative: L2 error {} Linfty error {}'.format(rmse, maxerr))
 
-'''
-design = PassiveDesign(fourier_feature_map, N_grado)
-idxs = design.choose_query_points(n)
-print(idxs)
 '''
 
 

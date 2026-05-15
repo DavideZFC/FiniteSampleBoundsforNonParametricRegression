@@ -1,6 +1,12 @@
 import matplotlib.pyplot as plt
 
-def threedplotter(x_query, y):
+plt.rcParams.update({
+    "text.usetex": False,       # Non serve un'installazione LaTeX esterna
+    "font.family": "serif",     # Usa un font con le grazie (stile Roman)
+    "mathtext.fontset": "cm",   # Usa Computer Modern (il font standard di LaTeX)
+})
+
+def threedplotter(x_query, y, name=None):
     """
     3-D scatterplot.
     
@@ -19,9 +25,12 @@ def threedplotter(x_query, y):
     z_coords = y
 
     scatter = ax.scatter(x_coords, y_coords, z_coords, c=z_coords, cmap='viridis')
-    ax.set_xlabel('X (Dimension 1)')
-    ax.set_ylabel('X (Dimension 2)')
-    ax.set_zlabel('Y (Target)')
-    plt.colorbar(scatter, label='Valore di Y')
+    ax.set_xlabel('$x_1$')
+    ax.set_ylabel('$x_2$')
+    ax.set_zlabel('$y$')
+    plt.colorbar(scatter, label='$y$ value')
+
+    if name is not None:
+        plt.savefig(name)
 
     plt.show()

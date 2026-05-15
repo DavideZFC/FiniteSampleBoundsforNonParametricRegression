@@ -1,7 +1,8 @@
 import numpy as np
 
 class Kernel:
-    def __init__(self, abs_func, func, disc = 1000):        
+    def __init__(self, kernel_builder, degree, disc = 1000):
+        abs_func, func = kernel_builder(degree)
 
         self.x = np.linspace(-1,1,disc)
         self.abs_func = abs_func
