@@ -113,7 +113,7 @@ class Experiment:
     
     def make_multiple_experiments(self, kernel, n_vec, seeds, kernel_name, noise_sd=0.0):
         """
-        Returns results of the experiment as a vector of means and standard deviations
+        Runs multiple tests for multiple sample sizes (n_vec) and random seeds, and returns results of the experiments as a vector of means and standard deviations
         """
         results = {
             "rmse_mean": [], "rmse_std": [],
