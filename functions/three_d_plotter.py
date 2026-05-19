@@ -1,9 +1,9 @@
 import matplotlib.pyplot as plt
 
 plt.rcParams.update({
-    "text.usetex": False,       # Non serve un'installazione LaTeX esterna
-    "font.family": "serif",     # Usa un font con le grazie (stile Roman)
-    "mathtext.fontset": "cm",   # Usa Computer Modern (il font standard di LaTeX)
+    "text.usetex": False,       
+    "font.family": "serif",     # Use Times New Roman
+    "mathtext.fontset": "cm",
 })
 
 def threedplotter(x_query, y, name=None):
