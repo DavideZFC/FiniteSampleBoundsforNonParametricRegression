@@ -89,6 +89,9 @@ def sample_from_pi_deterministic(pi, n):
     return counts.astype(int)
 
 def from_counts_to_idxs(vector):
+    """
+        The expanded array of indices, sorted in non-decreasing order.
+    """
     ans = np.zeros(np.sum(vector))
     curr = 0
     for i,num in enumerate(vector):
@@ -98,4 +101,10 @@ def from_counts_to_idxs(vector):
     return ans
 
 def get_design_idxs(A,n):
+    """
+    Composition of the functions
+    - from_counts_to_idxs
+    - sample_from_pi_deterministic
+    - find_optimal_design
+    """
     return from_counts_to_idxs(sample_from_pi_deterministic(find_optimal_design(A), n)).astype(int)
